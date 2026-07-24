@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="./image-slot.js"></script>
+  <style>
+    body { margin: 0; background: #FDFBF6; }
+    a { color: #12897A; text-decoration: none; }
+    a:hover { color: #E8874A; }
+    * { box-sizing: border-box; }
+    @keyframes slideTestimonials { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    [data-scrollhide]::-webkit-scrollbar { display: none; }
+  </style>
+</helmet>
+
+<div style="font-family:'Manrope',sans-serif; color:#2A2620; background:#FDFBF6; width:100%; overflow-x:hidden;">
+
+  <!-- Utility bar -->
+  <div style="background:#12897A; color:#FBF1E0; font-size:13px; padding:10px 32px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <span>127 East 105th Street, New York, NY 10029</span>
+      <a href="tel:9172658090" style="color:#FBF1E0; font-weight:600;">917-265-8090</a>
+    </div>
+    <div style="font-weight:600; letter-spacing:0.02em;">NYCB &amp; OASAS Approved Training Center</div>
+  </div>
+
+  <!-- Header / Nav -->
+  <div style="position:sticky; top:0; z-index:50;">
+    <header style="display:flex; align-items:center; justify-content:space-between; padding:24px clamp(24px,5vw,40px); background:rgba(14,51,45,0.32); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.22); position:relative;">
+      <a href="#top" style="display:flex; align-items:center; gap:12px; line-height:1.1; flex-shrink:0;">
+        <img src="uploads/logo-transparent.png" alt="Recoveries R Us logo" style="height:52px; width:52px; object-fit:contain; flex-shrink:0;" />
+        <span style="display:flex; flex-direction:column;">
+          <span style="font-family:'Lora',serif; font-weight:700; font-size:clamp(19px,2.4vw,24px); color:#FDFBF6;">Recoveries R Us</span>
+          <span style="font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#F2A868; font-weight:700;">Recovery Career Training</span>
+        </span>
+      </a>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3); border-radius:2px; cursor:pointer; flex-shrink:0;">
+          <span style="display:flex; flex-direction:column; gap:5px;">
+            <span style="width:20px; height:2px; background:#FDFBF6; display:block;"></span>
+            <span style="width:20px; height:2px; background:#FDFBF6; display:block;"></span>
+            <span style="width:20px; height:2px; background:#FDFBF6; display:block;"></span>
+          </span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex; align-items:center; gap:clamp(8px,1.3vw,26px); flex-wrap:nowrap;">
+          <sc-for list="{{ navItems }}" as="nav" hint-placeholder-count="7">
+            <div onMouseEnter="{{ nav.onEnter }}" onMouseLeave="{{ nav.onLeave }}" style="position:relative; padding:8px 0;">
+              <a href="{{ nav.href }}" style="font-weight:600; font-size:clamp(12px,1.2vw,14.5px); color:#FDFBF6; white-space:nowrap; display:flex; align-items:center; gap:4px;">
+                {{ nav.label }}
+                <sc-if value="{{ nav.hasChildren }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:10px;">&#9662;</span>
+                </sc-if>
+              </a>
+              <sc-if value="{{ nav.isOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; top:100%; left:0; background:#0E332D; min-width:230px; padding:8px 0; box-shadow:0 16px 28px rgba(0,0,0,0.25); border-radius:2px;">
+                  <sc-for list="{{ nav.children }}" as="child" hint-placeholder-count="2">
+                    <a href="{{ child.href }}" style="display:block; padding:11px 20px; font-size:14px; font-weight:500; color:#FDFBF6; white-space:nowrap;">{{ child.label }}</a>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </nav>
+      </sc-if>
+    </header>
+    <sc-if value="{{ isMenuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="position:absolute; top:100%; left:0; right:0; z-index:60; background:#0E332D; display:flex; flex-direction:column; padding:8px clamp(20px,5vw,32px) 20px; box-shadow:0 16px 28px rgba(0,0,0,0.22); max-height:80vh; overflow-y:auto;">
+        <sc-for list="{{ navItems }}" as="nav" hint-placeholder-count="7">
+          <div style="border-bottom:1px solid rgba(255,255,255,0.12);">
+            <a onClick="{{ closeMenu }}" href="{{ nav.href }}" style="display:block; font-weight:600; font-size:16px; color:#FDFBF6; padding:14px 0;">{{ nav.label }}</a>
+            <sc-for list="{{ nav.children }}" as="child" hint-placeholder-count="0">
+              <a onClick="{{ closeMenu }}" href="{{ child.href }}" style="display:block; font-weight:500; font-size:14.5px; color:#CDEAE3; padding:8px 0 8px 18px;">{{ child.label }}</a>
+            </sc-for>
+          </div>
+        </sc-for>
+      </nav>
+    </sc-if>
+  </div>
+
+  <!-- Hero -->
+  <section id="top" style="position:relative; margin-top:-81px; min-height:721px; background:#12897A; overflow:hidden;">
+    <div style="position:absolute; inset:0;">
+      <image-slot id="hero-img" shape="rect" src="uploads/rs=w_1500,h_1000,cg_true.webp" style="width:100%; height:100%;" placeholder="Drop graduation / classroom photo"></image-slot>
+    </div>
+    <div style="position:absolute; inset:0; background:linear-gradient(100deg, rgba(9,40,35,0.92) 0%, rgba(9,40,35,0.72) 38%, rgba(9,40,35,0.28) 68%, rgba(9,40,35,0.1) 100%);"></div>
+    <div style="position:relative; z-index:2; min-height:100%; padding:clamp(56px,11vw,120px) clamp(24px,6vw,80px); display:flex; flex-direction:column; justify-content:center; gap:clamp(22px,2.8vw,34px); max-width:660px;">
+      <span style="color:#F2A868; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; font-size:13px; text-align:left;">CASAC &middot; CRPA &middot; Peer Advocate Training</span>
+      <h1 style="font-family:'Lora',serif; font-size:clamp(32px,5.5vw,56px); line-height:1.1; margin:0; color:#FDFBF6; font-weight:600; text-align:left;">Start your recovery career today.</h1>
+      <p style="font-size:clamp(15px,1.8vw,18px); line-height:1.6; color:#EAF3F0; margin:0; text-align:left;">NYC-based CASAC, CRPA, and Peer Advocate training led by a 39-year veteran of the field &mdash; with real job and internship placement support behind every graduate.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+        <a href="#programs" style="background:#E8874A; color:#FDFBF6; padding:16px 34px; border-radius:2px; font-weight:700; font-size:15px;">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust stats -->
+  <section style="display:flex; flex-wrap:wrap; background:#FBF1E0; padding:clamp(36px,5vw,52px) clamp(24px,5vw,40px); gap:32px;">
+    <div style="flex:1 1 150px; text-align:center; padding:0 16px;">
+      <div style="font-family:'Lora',serif; font-size:clamp(26px,3vw,34px); font-weight:700; color:#12897A;">39+</div>
+      <div style="font-size:13px; color:#5B5647; margin-top:4px;">Years of Experience</div>
+    </div>
+    <div style="flex:1 1 150px; text-align:center; padding:0 16px;">
+      <div style="font-family:'Lora',serif; font-size:clamp(26px,3vw,34px); font-weight:700; color:#12897A;">2013</div>
+      <div style="font-size:13px; color:#5B5647; margin-top:4px;">Training Since</div>
+    </div>
+    <div style="flex:1 1 150px; text-align:center; padding:0 16px;">
+      <div style="font-family:'Lora',serif; font-size:clamp(26px,3vw,34px); font-weight:700; color:#12897A;">NYCB / OASAS</div>
+      <div style="font-size:13px; color:#5B5647; margin-top:4px;">Approved Curriculum</div>
+    </div>
+    <div style="flex:1 1 150px; text-align:center; padding:0 16px;">
+      <div style="font-family:'Lora',serif; font-size:clamp(26px,3vw,34px); font-weight:700; color:#12897A;">100%</div>
+      <div style="font-size:13px; color:#5B5647; margin-top:4px;">Job Placement Support</div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section id="programs" style="padding:clamp(64px,11vw,116px) clamp(24px,6vw,80px); background:#FDFBF6;">
+    <div style="max-width:640px; margin:0 auto 64px; text-align:center;">
+      <span style="color:#E8874A; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; font-size:13px;">Credentials &amp; Certification</span>
+      <h2 style="font-family:'Lora',serif; font-size:clamp(26px,4vw,38px); font-weight:600; color:#12897A; margin:12px 0 0;">You have to start somewhere. It starts with you.</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:32px;">
+      <sc-for list="{{ programs }}" as="p" hint-placeholder-count="3">
+        <a href="{{ p.href }}" style="background:#fff; border:1px solid #EDE3D0; padding:40px 32px; display:flex; flex-direction:column; gap:18px; color:#2A2620;">
+          <span style="font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#E8874A;">{{ p.tag }}</span>
+          <h3 style="font-family:'Lora',serif; font-size:22px; font-weight:600; color:#12897A; margin:0;">{{ p.title }}</h3>
+          <p style="font-size:14.5px; line-height:1.6; color:#5B5647; margin:0; flex:1;">{{ p.desc }}</p>
+          <span style="font-weight:700; font-size:14px; color:#12897A;">Learn more &rarr;</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- Job Placement -->
+  <section id="placement" style="display:flex; flex-wrap:wrap; background:#12897A;">
+    <div style="flex:1 1 420px; min-height:320px; align-self:stretch; overflow:hidden;">
+      <image-slot id="placement-img" shape="rect" style="width:100%; height:100%;" placeholder="Drop internship / workplace photo"></image-slot>
+    </div>
+    <div style="padding:clamp(56px,9vw,96px) clamp(24px,6vw,80px); display:flex; flex-direction:column; justify-content:center; gap:24px; flex:1 1 420px;">
+      <span style="color:#F2A868; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; font-size:13px;">Internship &amp; Job Placement</span>
+      <h2 style="font-family:'Lora',serif; font-size:clamp(24px,3.4vw,32px); font-weight:600; color:#FDFBF6; margin:0;">We don't just train counselors &mdash; we put them to work.</h2>
+      <p style="font-size:clamp(15px,1.8vw,16px); line-height:1.7; color:#CDEAE3; margin:0;">Every student gets hands-on internship placement in real addiction-counseling settings, plus dedicated support with resumes, interview prep, and direct employer connections after graduation.</p>
+      <ul style="list-style:none; padding:0; margin:16px 0 0; display:flex; flex-direction:column; gap:16px;">
+        <li style="display:flex; gap:12px; color:#FBF1E0; font-size:15px;"><span style="color:#F2A868; font-weight:700;">&mdash;</span> Hands-on internship placement with partner organizations</li>
+        <li style="display:flex; gap:12px; color:#FBF1E0; font-size:15px;"><span style="color:#F2A868; font-weight:700;">&mdash;</span> Resume building and interview preparation</li>
+        <li style="display:flex; gap:12px; color:#FBF1E0; font-size:15px;"><span style="color:#F2A868; font-weight:700;">&mdash;</span> Direct connections with hiring employers</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- About / Founder -->
+  <section id="about" style="display:flex; flex-wrap:wrap; gap:clamp(40px,7vw,80px); padding:clamp(64px,11vw,116px) clamp(24px,6vw,80px); background:#FDFBF6; align-items:center;">
+    <image-slot id="founder-img" shape="rounded" radius="4" style="flex:1 1 280px; max-width:420px; width:100%; aspect-ratio:4/5;" placeholder="Drop founder photo"></image-slot>
+    <div style="display:flex; flex-direction:column; gap:24px; flex:2 1 380px;">
+      <span style="color:#E8874A; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; font-size:13px;">About the Founder</span>
+      <h2 style="font-family:'Lora',serif; font-size:clamp(24px,4vw,34px); font-weight:600; color:#12897A; margin:0;">Connie Pacheco, President</h2>
+      <p style="font-size:clamp(15px,1.8vw,16px); line-height:1.75; color:#5B5647; margin:0;">With over 39 years of experience in the field, Connie doesn't just teach &mdash; she invests her life's work into every student who walks through the door. As founder and President of Recoveries R Us, she is personally committed to the growth and success of every graduate, because their success is the mission.</p>
+      <p style="font-family:'Lora',serif; font-style:italic; color:#12897A; font-size:18px; border-left:3px solid #E8874A; padding-left:20px; margin:12px 0 0;">"When my students succeed, we all succeed. This is my passion, my purpose, and my promise."</p>
+      <a href="#about" style="font-weight:700; color:#12897A; margin-top:8px;">Read more about Connie &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog" style="padding:clamp(56px,9vw,88px) clamp(24px,6vw,80px); background:#FBF1E0;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:40px;">
+      <h2 style="font-family:'Lora',serif; font-size:clamp(22px,3vw,28px); font-weight:600; color:#12897A; margin:0;">From the Community</h2>
+      <a href="#blog" style="font-weight:700; font-size:14px; color:#12897A;">View all posts &rarr;</a>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:28px;">
+      <sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="3">
+        <a href="#blog" style="background:#fff; border:1px solid #E4D5B8; padding:28px; display:flex; flex-direction:column; gap:12px; color:#2A2620;">
+          <span style="font-size:12px; font-weight:700; color:#E8874A; letter-spacing:0.06em; text-transform:uppercase;">{{ post.date }}</span>
+          <h3 style="font-family:'Lora',serif; font-size:17px; font-weight:600; color:#12897A; margin:0;">{{ post.title }}</h3>
+          <p style="font-size:13.5px; line-height:1.6; color:#5B5647; margin:0;">{{ post.excerpt }}</p>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section style="background:#0E332D; padding:clamp(56px,9vw,96px) 0; overflow:hidden;">
+    <div style="text-align:center; margin-bottom:48px; padding:0 clamp(24px,6vw,80px);">
+      <span style="color:#F2A868; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; font-size:13px;">Testimonials</span>
+      <h2 style="font-family:'Lora',serif; font-size:clamp(24px,3.4vw,32px); font-weight:600; color:#FDFBF6; margin:12px 0 0;">What our graduates say</h2>
+    </div>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="width:100%; overflow:hidden;">
+        <div style="display:flex; width:max-content; animation:slideTestimonials 36s linear infinite;">
+          <sc-for list="{{ testimonialsLoop }}" as="t" hint-placeholder-count="8">
+            <div style="width:420px; flex-shrink:0; margin:0 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); padding:28px 26px; display:flex; flex-direction:column; gap:16px;">
+              <p style="font-family:'Lora',serif; font-size:16.5px; font-style:italic; color:#FDFBF6; line-height:1.55; margin:0;">"{{ t.quote }}"</p>
+              <span style="font-weight:700; color:#CDEAE3; font-size:13px;">{{ t.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div data-scrollhide style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:16px; padding:0 20px 8px; scrollbar-width:none;">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="4">
+          <div style="scroll-snap-align:center; flex:0 0 82%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); padding:26px 22px; display:flex; flex-direction:column; gap:14px;">
+            <p style="font-family:'Lora',serif; font-size:16px; font-style:italic; color:#FDFBF6; line-height:1.55; margin:0;">"{{ t.quote }}"</p>
+            <span style="font-weight:700; color:#CDEAE3; font-size:13px;">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" style="background:#12897A; padding:clamp(56px,9vw,96px) clamp(24px,6vw,80px); display:flex; align-items:center; justify-content:space-between; gap:48px; flex-wrap:wrap;">
+    <div style="max-width:520px;">
+      <h2 style="font-family:'Lora',serif; font-size:clamp(24px,4vw,32px); font-weight:600; color:#FDFBF6; margin:0 0 12px;">Ready to start your recovery career?</h2>
+      <p style="color:#CDEAE3; font-size:16px; margin:0;">Call us or stop by our East Harlem training center to learn which program is right for you.</p>
+    </div>
+    <div style="display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="tel:9172658090" style="background:#E8874A; color:#FDFBF6; padding:18px 32px; border-radius:2px; font-weight:700; font-size:15px;">Call 917-265-8090</a>
+      <a href="mailto:info@recoveriesrus.org" style="border:1.5px solid #CDEAE3; color:#FDFBF6; padding:18px 32px; border-radius:2px; font-weight:700; font-size:15px;">Email Us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0E332D; color:#B9AF9B; padding:clamp(48px,9vw,72px) clamp(24px,6vw,80px) 40px; display:flex; flex-direction:column; gap:40px;">
+    <div style="display:flex; flex-wrap:wrap; gap:48px;">
+      <div style="display:flex; flex-direction:column; gap:10px; flex:1 1 240px;">
+        <span style="font-family:'Lora',serif; font-weight:700; font-size:20px; color:#FDFBF6;">Recoveries R Us</span>
+        <p style="font-size:14px; line-height:1.6; margin:0;">127 East 105th Street<br />New York, NY 10029</p>
+        <a href="tel:9172658090" style="color:#F2A868; font-weight:700; font-size:14px;">917-265-8090</a>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px; flex:1 1 160px;">
+        <span style="color:#FDFBF6; font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase;">Credentials</span>
+        <a href="#casac" style="font-size:14px;">CASAC</a>
+        <a href="#crpa" style="font-size:14px;">CRPA / CARC</a>
+        <a href="#ce" style="font-size:14px;">CE &amp; Renewal</a>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px; flex:1 1 160px;">
+        <span style="color:#FDFBF6; font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase;">Community</span>
+        <a href="#blog" style="font-size:14px;">Blog</a>
+        <a href="#community" style="font-size:14px;">Gallery</a>
+        <a href="#pathways" style="font-size:14px;">Pathways</a>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px; flex:1 1 160px;">
+        <span style="color:#FDFBF6; font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase;">Company</span>
+        <a href="#about" style="font-size:14px;">About Connie Pacheco</a>
+        <a href="#placement" style="font-size:14px;">Job Placement</a>
+        <a href="#contact" style="font-size:14px;">Contact</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid #1B4A42; padding-top:24px; font-size:13px;">Copyright &copy; 2013&ndash;2026 Recoveries R Us, LLC &mdash; All Rights Reserved.</div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { isMobile: false, isMenuOpen: false, openNavIndex: null };
+
+  componentDidMount() {
+    this.updateSize = () => this.setState({ isMobile: window.innerWidth < 1180 });
+    this.updateSize();
+    window.addEventListener('resize', this.updateSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateSize);
+  }
+
+  renderVals() {
+    const rawNav = [
+      { label: 'CASAC', href: '#casac', children: [
+        { label: '350-Hour Training', href: '#casac' },
+        { label: 'Exam Preparation', href: '#casac' }
+      ] },
+      { label: 'CRPA / CARC', href: '#crpa', children: [
+        { label: 'Recovery Coach Academy', href: '#crpa' },
+        { label: 'CRPA Exam Preparation', href: '#crpa' }
+      ] },
+      { label: 'CE & Renewal', href: '#ce', children: [] },
+      { label: 'Pathways', href: '#pathways', children: [
+        { label: 'Professional Development', href: '#pathways' },
+        { label: 'Support Services', href: '#pathways' }
+      ] },
+      { label: 'Community', href: '#community', children: [
+        { label: 'Blog', href: '#blog' },
+        { label: 'Gallery', href: '#community' }
+      ] },
+      { label: 'About', href: '#about', children: [
+        { label: 'Meet Connie', href: '#about' },
+        { label: 'Our Mission & Capabilities', href: '#about' },
+        { label: 'Our Team', href: '#about' },
+        { label: 'The Bx LGBT Expo', href: '#about' }
+      ] },
+      { label: 'Contact', href: '#contact', children: [] }
+    ];
+
+    const navItems = rawNav.map((item, i) => ({
+      ...item,
+      hasChildren: item.children.length > 0,
+      isOpen: this.state.openNavIndex === i && item.children.length > 0,
+      onEnter: () => this.setState({ openNavIndex: i }),
+      onLeave: () => this.setState({ openNavIndex: null })
+    }));
+
+    const testimonials = [
+      { quote: "Recoveries R Us didn't just prepare me for the CASAC exam \u2014 they prepared me for a career. The internship placement made all the difference.", name: 'CASAC Graduate, Class of 2025' },
+      { quote: 'Connie treats every student like family. I walked in unsure of myself and walked out with a CRPA certification and a job offer.', name: 'CRPA Graduate, Class of 2024' },
+      { quote: 'The exam prep workshop was exactly what I needed. Small classes, real attention, and instructors who actually answer your questions.', name: 'CASAC Graduate, Class of 2025' },
+      { quote: 'From day one I felt supported. The recovery coach academy gave me tools I still use with clients every single day.', name: 'Recovery Coach Graduate' }
+    ];
+
+    return {
+      isMobile: this.state.isMobile,
+      isDesktop: !this.state.isMobile,
+      isMenuOpen: this.state.isMobile && this.state.isMenuOpen,
+      toggleMenu: () => this.setState(s => ({ isMenuOpen: !s.isMenuOpen })),
+      closeMenu: () => this.setState({ isMenuOpen: false }),
+      navItems,
+      programs: [
+        { tag: 'Credential', title: 'CASAC', desc: '350-hour Credentialed Alcoholism and Substance Abuse Counselor training plus dedicated exam preparation.', href: '#casac' },
+        { tag: 'Credential', title: 'CRPA / CARC', desc: 'NYCB-approved Certified Recovery Peer Advocate training with a full Recovery Coach Academy track and exam prep.', href: '#crpa' },
+        { tag: 'Ongoing', title: 'CE & Renewal', desc: 'Continuing education hours and renewal coursework to keep your credential active and in good standing.', href: '#ce' }
+      ],
+      blogPosts: [
+        { date: 'June 2026', title: 'Five Tips for Passing the CASAC Exam', excerpt: 'Study strategies from graduates who passed on their first attempt.' },
+        { date: 'May 2026', title: 'What a Recovery Peer Advocate Really Does', excerpt: 'A day-in-the-life look at CRPA work in NYC treatment settings.' },
+        { date: 'April 2026', title: 'Why Internships Matter for New Counselors', excerpt: 'How hands-on placement turns training into a real career.' }
+      ],
+      testimonials,
+      testimonialsLoop: testimonials.concat(testimonials)
+    };
+  }
+}
+
+</script>
+</body>
+</html>
